@@ -10,9 +10,10 @@ class WelcomeScreen extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
+                //height: 1500,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/pen2.png'),
+                    image: AssetImage('assets/images/pen.png'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -37,7 +38,8 @@ class WelcomeScreen extends StatelessWidget {
                   Text(
                     'TO PIXELPEN',
                     style: TextStyle(
-                      color: Colors.lightBlue,
+                      color: Colors.red,
+                      //color: Colors.lightBlue,
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
@@ -45,15 +47,19 @@ class WelcomeScreen extends StatelessWidget {
                   SizedBox(
                     height: 100,
                   ),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        //fixedSize: (),
-                        backgroundColor: Colors
-                            .green, // Change this color to your desired color
-                      ),
-                      // onHover: ,
-                      onPressed: () {},
-                      child: Text('Lets Get Started')),
+                  Container(
+                    height: 40,
+                    width: 150,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          //fixedSize: (),
+                          backgroundColor: Colors
+                              .green, // Change this color to your desired color
+                        ),
+                        // onHover: ,
+                        onPressed: () {},
+                        child: Text('Lets Get Started')),
+                  ),
                 ],
               ),
             ),
