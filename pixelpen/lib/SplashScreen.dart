@@ -67,11 +67,6 @@ class _SplashScreenState extends State<SplashScreen>
                 width: 250,
                 height: 250,
               ),
-              // const SizedBox(height: 15),
-              // AnimatedOpacity(
-              //   opacity: _animationCompleted ? 0.0 : 1.0,
-              //   duration: const Duration(milliseconds: 500),
-              // ),
             ],
           ),
         ),

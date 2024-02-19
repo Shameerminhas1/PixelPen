@@ -9,7 +9,7 @@ void main() {
         initialRoute: 'splashscreen',
         routes: {
           'splashscreen': (context) => const SplashScreen(),
-          'welcomescreen': (context) => const WelcomeScreen()
+          'welcomescreen': (context) => WelcomeScreen()
         },
         onGenerateRoute: (settings) {
           return null;
