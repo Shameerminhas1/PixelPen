@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pixelpen/Scan.dart';
 import 'SplashScreen.dart';
 import 'welcomescreen.dart';
 
@@ -9,7 +10,8 @@ void main() {
         initialRoute: 'splashscreen',
         routes: {
           'splashscreen': (context) => const SplashScreen(),
-          'welcomescreen': (context) => WelcomeScreen()
+          'welcomescreen': (context) => WelcomeScreen(),
+          'scan': (context) => const Scan()
         },
         onGenerateRoute: (settings) {
           return null;
