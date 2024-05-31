@@ -1,4 +1,7 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:pixelpen/CameraInput.dart';
+import 'package:pixelpen/Scan.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
@@ -49,7 +52,7 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                   Container(
                     height: 40,
-                    width: 150,
+                    width: 160,
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           //fixedSize: (),
@@ -57,8 +60,22 @@ class WelcomeScreen extends StatelessWidget {
                               .green, // Change this color to your desired color
                         ),
                         // onHover: ,
-                        onPressed: () {},
-                        child: Text('Lets Get Started')),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Scan(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Lets Get Started',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        )),
                   ),
                 ],
               ),

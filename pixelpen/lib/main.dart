@@ -11,7 +11,8 @@ void main() {
         routes: {
           'splashscreen': (context) => const SplashScreen(),
           'welcomescreen': (context) => WelcomeScreen(),
-          'scan': (context) => const Scan()
+          'scan': (context) => const Scan(),
+          'camera': (context) => const Scan(),
         },
         onGenerateRoute: (settings) {
           return null;
