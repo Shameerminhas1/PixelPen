@@ -1,7 +1,8 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:pixelpen/CameraInput.dart';
-import 'package:pixelpen/Scan.dart';
+import 'package:pixelpen/Imagepanel.dart';
+import 'package:pixelpen/Readaloud.dart';
+import 'package:pixelpen/translate.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
@@ -64,7 +65,7 @@ class WelcomeScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Scan(),
+                              builder: (context) => CameraInput(),
                             ),
                           );
                         },
@@ -77,6 +78,83 @@ class WelcomeScreen extends StatelessWidget {
                           ),
                         )),
                   ),
+                  //read btn
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        //fixedSize: (),
+                        backgroundColor: Colors
+                            .green, // Change this color to your desired color
+                      ),
+                      // onHover: ,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ReadAloud(),
+                          ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            'LETS READ   ',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Icon(
+                            Icons.volume_up_rounded,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  //read btn
+                  SizedBox(
+                    height: 10,
+                  ),
+                  //translate
+                  Container(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        //fixedSize: (),
+                        backgroundColor: Colors
+                            .green, // Change this color to your desired color
+                      ),
+                      // onHover: ,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TranslateScreen(),
+                          ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            'LETS TRANSLATE   ',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Icon(
+                            Icons.translate_rounded,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
