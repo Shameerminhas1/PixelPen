@@ -215,59 +215,59 @@ class _CameraInputState extends State<CameraInput> {
 
                 //upgal
                 // Gallery icon
-                Positioned(
-                  bottom: 35,
-                  right: 20,
-                  child: GestureDetector(
-                    onTap: () {
-                      if (isBatchMode && batchImages.isNotEmpty) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ImagePanel(
-                                imagePath: batchImages.last,
-                                imagePaths: batchImages),
-                          ),
-                        );
-                      } else if (lastImagePath != null) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ImagePanel(imagePath: lastImagePath!),
-                          ),
-                        );
-                      } else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ImagePanel(imagePath: '', imagePaths: []),
-                          ),
-                        );
-                      }
-                    },
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        image: (isBatchMode && batchImages.isNotEmpty)
-                            ? DecorationImage(
-                                image: FileImage(File(batchImages.last)),
-                                fit: BoxFit.cover,
-                              )
-                            : lastImagePath != null
-                                ? DecorationImage(
-                                    image: FileImage(File(lastImagePath!)),
-                                    fit: BoxFit.cover,
-                                  )
-                                : null,
-                      ),
-                    ),
-                  ),
-                ),
+                // Positioned(
+                //   bottom: 35,
+                //   right: 20,
+                //   child: GestureDetector(
+                //     onTap: () {
+                //       if (isBatchMode && batchImages.isNotEmpty) {
+                //         Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (context) => ImagePanel(
+                //                 imagePath: batchImages.last,
+                //                 imagePaths: batchImages),
+                //           ),
+                //         );
+                //       } else if (lastImagePath != null) {
+                //         Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (context) =>
+                //                 ImagePanel(imagePath: lastImagePath!),
+                //           ),
+                //         );
+                //       } else {
+                //         Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (context) =>
+                //                 ImagePanel(imagePath: '', imagePaths: []),
+                //           ),
+                //         );
+                //       }
+                //     },
+                //     child: Container(
+                //       width: 60,
+                //       height: 60,
+                //       decoration: BoxDecoration(
+                //         color: Colors.white,
+                //         shape: BoxShape.circle,
+                //         image: (isBatchMode && batchImages.isNotEmpty)
+                //             ? DecorationImage(
+                //                 image: FileImage(File(batchImages.last)),
+                //                 fit: BoxFit.cover,
+                //               )
+                //             : lastImagePath != null
+                //                 ? DecorationImage(
+                //                     image: FileImage(File(lastImagePath!)),
+                //                     fit: BoxFit.cover,
+                //                   )
+                //                 : null,
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 //upgal
 
                 // //Gallery icon
