@@ -240,6 +240,7 @@ class _CameraInputState extends State<CameraInput> {
                     onPressed: takePicture,
                   ),
                 ),
+                //gal on dele
                 // Positioned(
                 //   bottom: 35,
                 //   right: 20,
