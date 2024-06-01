@@ -32,17 +32,19 @@ Future<void> main() async {
               builder: (context) => ImagePanel(
                 imagePath: args['imagePath'],
                 imagePaths: args['imagePaths'],
-                // onDelete: args['onDelete']
+                //  //imagePaths: (args['imagePaths'] as List<dynamic>).cast<String>(),
+                // onDelete: args['onDelete'],
+                // // onUpdate: () {
+                // Implement the logic to trigger update after deletion
+                // This callback will be called from the ImagePanel widget
+                // and should trigger a rebuild of the parent widget containing
+                // the CameraInput widget.
+                //  },
+                //   //isBatchMode: args['isBatchMode'],
+                //  // onDelete: args['onDelete'] as void Function(String),
               ),
             );
           }
-
-          // if (settings.name == 'imagepanel') {
-          //   final args = settings.arguments as String;
-          //   return MaterialPageRoute(
-          //     builder: (context) => ImagePanel(imagePath: args),
-          //   );
-          // }
           return null;
         }),
   );
