@@ -301,7 +301,9 @@ class _CameraInputState extends State<CameraInput> {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
-                          image: (isBatchMode && batchImages.isNotEmpty)
+                          image: (isBatchMode &&
+                                  batchImages.isNotEmpty &&
+                                  batchImages.last.isNotEmpty)
                               ? DecorationImage(
                                   image: FileImage(File(batchImages.last)),
                                   fit: BoxFit.cover,
