@@ -157,10 +157,14 @@ class _ImagePanelState extends State<ImagePanel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 165, 225, 255),
+      backgroundColor: Colors.grey[850],
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 125, 214, 255),
-        title: Text('Image Preview'),
+        foregroundColor: Colors.white,
+        backgroundColor: const Color.fromARGB(221, 20, 20, 20),
+        iconTheme: IconThemeData(
+          color: Colors.white, // Change this to the desired color
+        ),
+        title: Text('Image Tray'),
       ),
       body: Center(
         child: widget.imagePaths != null && widget.imagePaths!.isNotEmpty

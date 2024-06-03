@@ -70,6 +70,9 @@ class _TranslateScreenState extends State<TranslateScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.white, // Change this to the desired color
+        ),
         backgroundColor: Colors.black,
         elevation: 0,
         title: Text(
