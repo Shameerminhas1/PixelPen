@@ -16,7 +16,7 @@ class _CameraInputState extends State<CameraInput> {
   List<CameraDescription>? cameras;
   bool isCameraInitialized = false;
   FlashMode currentFlashMode = FlashMode.off;
-  String? lastImagePath; //--
+  String? lastImagePath;
   bool isBatchMode = false;
   List<String> batchImages = [];
 
@@ -56,14 +56,12 @@ class _CameraInputState extends State<CameraInput> {
 
       // Get the directory to save the picture
       final directory = await getApplicationDocumentsDirectory();
-
       final path =
           '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.png';
       await picture.saveTo(path);
-      print('picture successfully taken');
+      print('Picture successfully taken');
       print('Picture saved to $path');
 
-      // Handle batch mode
       if (isBatchMode) {
         setState(() {
           batchImages.add(path);
@@ -72,12 +70,28 @@ class _CameraInputState extends State<CameraInput> {
         setState(() {
           lastImagePath = path;
         });
+
+        // Navigate to ImagePanel
+        final result = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ImagePanel(
+              imagePath: path,
+              imagePaths: null,
+            ),
+          ),
+        );
+
+        // Update gallery icon after coming back from ImagePanel
+        if (result == true && isBatchMode) {
+          setState(() {
+            batchImages.clear();
+          });
+        }
       }
 
       // Save the picture to the gallery
       final result = await Gal.putImage(path, album: 'Pixel Images');
-
-      //print('Picture saved to gallery: $result',);
     } catch (e) {
       print('Error taking picture: $e');
     }
@@ -155,6 +169,7 @@ class _CameraInputState extends State<CameraInput> {
                   width: 450,
                   child: CameraPreview(controller!),
                 )),
+
                 // Mode selector
                 Positioned(
                   bottom: 110,
@@ -165,7 +180,7 @@ class _CameraInputState extends State<CameraInput> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        //single pic mode
+                        // Single picture mode
                         GestureDetector(
                           onTap: () async {
                             await clearImages();
@@ -192,7 +207,7 @@ class _CameraInputState extends State<CameraInput> {
                           ),
                         ),
                         SizedBox(width: 25),
-                        //btch pic mode
+                        // Batch picture mode
                         GestureDetector(
                           onTap: () async {
                             await clearImages();
@@ -240,83 +255,109 @@ class _CameraInputState extends State<CameraInput> {
                     onPressed: takePicture,
                   ),
                 ),
-                //gal on dele
-                // Positioned(
-                //   bottom: 35,
-                //   right: 20,
-                //   child: GestureDetector(
-                //     onTap: () async {
-                //       bool? result;
-                //       if (isBatchMode && batchImages.isNotEmpty) {
-                //         result = await Navigator.push(
-                //           context,
-                //           MaterialPageRoute(
-                //             builder: (context) => ImagePanel(
-                //                 imagePath: batchImages.last,
-                //                 imagePaths: batchImages),
-                //           ),
-                //         );
-                //       } else if (lastImagePath != null) {
-                //         result = await Navigator.push(
-                //           context,
-                //           MaterialPageRoute(
-                //             builder: (context) =>
-                //                 ImagePanel(imagePath: lastImagePath!),
-                //           ),
-                //         );
-                //       }
-
-                //       if (result == true) {
-                //         setState(() {});
-                //       }
-                //     },
-                // //Gallery icon
-                Positioned(
-                  bottom: 35,
-                  right: 20,
-                  child: GestureDetector(
-                    onTap: () {
-                      if (isBatchMode && batchImages.isNotEmpty) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ImagePanel(
-                                imagePath: batchImages.last,
-                                imagePaths: batchImages),
+// new
+// Gallery icon (only shown in batch mode)
+                if (isBatchMode)
+                  Positioned(
+                    bottom: 35,
+                    right: 20,
+                    child: Stack(
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            if (batchImages.isNotEmpty) {
+                              final result = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ImagePanel(
+                                      imagePath: batchImages.last,
+                                      imagePaths: batchImages),
+                                ),
+                              );
+                              // Update gallery icon after coming back from ImagePanel
+                              if (result == true && batchImages.isEmpty) {
+                                setState(() {});
+                              }
+                            }
+                          },
+                          child: Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                image: batchImages.isNotEmpty
+                                    ? DecorationImage(
+                                        image:
+                                            FileImage(File(batchImages.last)),
+                                        fit: BoxFit.cover,
+                                      )
+                                    : null),
                           ),
-                        );
-                      } else if (lastImagePath != null) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ImagePanel(imagePath: lastImagePath!),
+                        ),
+                        if (batchImages.isNotEmpty)
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: Container(
+                              width: 17,
+                              padding: EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.red,
+                                //borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                '${batchImages.length}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
                           ),
-                        );
-                      }
-                    },
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          image: (isBatchMode &&
-                                  batchImages.isNotEmpty &&
-                                  batchImages.last.isNotEmpty)
-                              ? DecorationImage(
-                                  image: FileImage(File(batchImages.last)),
-                                  fit: BoxFit.cover,
-                                )
-                              : lastImagePath != null
-                                  ? DecorationImage(
-                                      image: FileImage(File(lastImagePath!)),
-                                      fit: BoxFit.cover,
-                                    )
-                                  : null),
+                      ],
                     ),
                   ),
-                ),
+
+                //
+                // Gallery icon (only shown in batch mode)
+                // if (isBatchMode)
+                //   Positioned(
+                //     bottom: 35,
+                //     right: 20,
+                //     child: GestureDetector(
+                //       onTap: () async {
+                //         if (batchImages.isNotEmpty) {
+                //           final result = await Navigator.push(
+                //             context,
+                //             MaterialPageRoute(
+                //               builder: (context) => ImagePanel(
+                //                   imagePath: batchImages.last,
+                //                   imagePaths: batchImages),
+                //             ),
+                //           );
+                //           // Update gallery icon after coming back from ImagePanel
+                //           if (result == true && batchImages.isEmpty) {
+                //             setState(() {});
+                //           }
+                //         }
+                //       },
+                //       child: Container(
+                //         width: 60,
+                //         height: 60,
+                //         decoration: BoxDecoration(
+                //             color: Colors.white,
+                //             shape: BoxShape.circle,
+                //             image: batchImages.isNotEmpty
+                //                 ? DecorationImage(
+                //                     image: FileImage(File(batchImages.last)),
+                //                     fit: BoxFit.cover,
+                //                   )
+                //                 : null),
+                //       ),
+                //     ),
+                //   ),
                 // Flash
                 Positioned(
                   top: 20,
