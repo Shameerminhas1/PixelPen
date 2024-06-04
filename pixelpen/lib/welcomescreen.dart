@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pixelpen/CameraInput.dart';
+import 'package:pixelpen/Chat_screen.dart';
 import 'package:pixelpen/Imagepanel.dart';
 import 'package:pixelpen/Readaloud.dart';
 import 'package:pixelpen/translate.dart';
@@ -149,6 +150,43 @@ class WelcomeScreen extends StatelessWidget {
                           ),
                           Icon(
                             Icons.translate_rounded,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        //fixedSize: (),
+                        backgroundColor: Colors
+                            .green, // Change this color to your desired color
+                      ),
+                      // onHover: ,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatScreen(),
+                          ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            'LETS GENERATE   ',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Icon(
+                            Icons.generating_tokens_outlined,
                             color: Colors.white,
                           ),
                         ],
