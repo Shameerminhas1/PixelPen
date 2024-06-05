@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:gal/gal.dart';
 import 'package:pixelpen/Imagepanel.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CameraInput extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class _CameraInputState extends State<CameraInput> {
   String? lastImagePath;
   bool isBatchMode = false;
   List<String> batchImages = [];
+  XFile? _pickedImage; //new
 
   @override
   void initState() {
@@ -149,6 +151,38 @@ class _CameraInputState extends State<CameraInput> {
       print('Error clearing images: $e');
     }
   }
+
+//new
+  Future<void> _getImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _pickedImage = pickedFile;
+      });
+
+      // Navigate to ImagePanel
+      final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ImagePanel(
+            imagePath: pickedFile.path,
+            imagePaths: null,
+          ),
+        ),
+      );
+
+      // Update gallery icon after coming back from ImagePanel
+      if (result == true && isBatchMode) {
+        setState(() {
+          batchImages.clear();
+        });
+      }
+    }
+  }
+
+//new
 
   @override
   void dispose() {
@@ -359,6 +393,18 @@ class _CameraInputState extends State<CameraInput> {
                 //     ),
                 //   ),
                 // Flash
+                ///new
+                Positioned(
+                  bottom: 35,
+                  left: 20,
+                  child: IconButton(
+                    iconSize: 45,
+                    color: Colors.white,
+                    icon: Icon(Icons.insert_photo),
+                    onPressed: _getImageFromGallery,
+                  ),
+                ),
+                //new
                 Positioned(
                   top: 20,
                   right: -3,
