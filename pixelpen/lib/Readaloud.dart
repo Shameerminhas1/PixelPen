@@ -148,50 +148,56 @@ class _ReadAloudState extends State<ReadAloud> {
           color: Colors.white, // Change this to the desired color
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20),
-              Text(
-                'Welcome back !',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                textAlignVertical: TextAlignVertical.top,
-                controller: _textController,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white70,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  //labelText: 'Enter text to read aloud',
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 20),
+            Text(
+              'Welcome back !',
+              style: TextStyle(color: Colors.white, fontSize: 24),
+            ),
+            SizedBox(height: 20),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                maxLines: null, // Allows multiple lines
-                keyboardType: TextInputType.multiline,
-                textInputAction: TextInputAction.newline,
-              ),
-              SizedBox(height: 20),
-              Center(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      padding: EdgeInsets.all(24),
-                      backgroundColor: Colors.black),
-                  onPressed: _detectLanguageAndSpeak,
-                  child: Icon(
-                    Icons.volume_up_rounded,
-                    size: 45,
-                    color: Colors.white,
+                child: TextField(
+                  textAlignVertical: TextAlignVertical.top,
+                  controller: _textController,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Enter text to read aloud',
+                    hintStyle: TextStyle(color: Colors.grey),
                   ),
+                  maxLines: null, // Allows multiple lines
+                  keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.newline,
                 ),
               ),
-            ],
-          ),
+            ),
+            SizedBox(height: 20),
+            Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(),
+                  padding: EdgeInsets.all(24),
+                  backgroundColor: Colors.black,
+                  elevation: 5,
+                ),
+                onPressed: _detectLanguageAndSpeak,
+                child: Icon(
+                  Icons.volume_up_rounded,
+                  size: 45,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
