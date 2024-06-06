@@ -328,7 +328,7 @@ class _TranslateScreenState extends State<TranslateScreen>
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: 600,
+          height: 800,
           child: Stack(
             children: [
               AnimatedContainer(
@@ -483,7 +483,7 @@ class _TranslateScreenState extends State<TranslateScreen>
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(width: 180.0),
+                        SizedBox(width: 170.0),
                         IconButton(
                           icon: Icon(Icons.volume_up, color: Colors.white),
                           onPressed: _speakText,
