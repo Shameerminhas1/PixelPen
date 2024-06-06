@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
+import 'dart:io';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -12,6 +14,15 @@ class _ChatScreenState extends State<ChatScreen> {
   final ScrollController _listScrollController = ScrollController();
   final FocusNode _focusNode = FocusNode();
   bool _isTyping = false;
+  late final GenerativeModel _model;
+
+  @override
+  void initState() {
+    super.initState();
+    _model = GenerativeModel(
+        model: 'gemini-1.5-flash',
+        apiKey: 'AIzaSyBX7BHTNXm6d5O4Pv_jbSbQ1A55f2kiJfQ');
+  }
 
   @override
   void dispose() {
@@ -21,26 +32,27 @@ class _ChatScreenState extends State<ChatScreen> {
     super.dispose();
   }
 
-  void _handleSubmitted(String text) {
+  void _handleSubmitted(String text) async {
     if (text.isEmpty) return;
     _controller.clear();
     setState(() {
-      _messages.insert(0, ChatMessage(text: text, sender: "User"));
+      _messages.insert(0, ChatMessage(text: text, sender: "PixelPen"));
       _isTyping = true;
     });
-    _simulateBotResponse(text);
+
+    final response = await _generateBotResponse(text);
+    setState(() {
+      _messages.insert(0, ChatMessage(text: response, sender: "CODE-X"));
+      _isTyping = false;
+    });
+
     _scrollListToEnd();
   }
 
-  void _simulateBotResponse(String userMessage) {
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        _messages.insert(0,
-            ChatMessage(text: "Bot response to: $userMessage", sender: "Bot"));
-        _isTyping = false;
-      });
-      _scrollListToEnd();
-    });
+  Future<String> _generateBotResponse(String userMessage) async {
+    final content = [Content.text(userMessage)];
+    final response = await _model.generateContent(content);
+    return response.text ?? "Sorry, I couldn't understand that.";
   }
 
   void _scrollListToEnd() {
@@ -54,41 +66,53 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[850],
       appBar: AppBar(
-        elevation: 2,
         backgroundColor: Colors.black,
-        iconTheme: IconThemeData(
-          color: Colors.white, // Change this to the desired color
-        ),
         title: Text(
           'AI Generator',
           style: TextStyle(color: Colors.white),
         ),
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
       ),
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Flexible(
-              child: ListView.builder(
-                padding: EdgeInsets.all(8.0),
-                controller: _listScrollController,
-                reverse: true,
-                itemBuilder: (_, int index) => _messages[index],
-                itemCount: _messages.length,
+      body: Stack(
+        children: [
+          AnimatedContainer(
+            duration: Duration(seconds: 3),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.black, Colors.grey[850]!],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
             ),
-            if (_isTyping) ...[
-              const SpinKitThreeBounce(
-                color: Colors.white,
-                size: 18,
-              ),
-              const SizedBox(height: 15),
-            ],
-            Divider(height: 1.0),
-            _buildTextComposer(),
-          ],
-        ),
+          ),
+          SafeArea(
+            child: Column(
+              children: <Widget>[
+                Flexible(
+                  child: ListView.builder(
+                    padding: EdgeInsets.all(8.0),
+                    controller: _listScrollController,
+                    reverse: true,
+                    itemBuilder: (_, int index) => _messages[index],
+                    itemCount: _messages.length,
+                  ),
+                ),
+                if (_isTyping) ...[
+                  const SpinKitThreeBounce(
+                    color: Colors.white,
+                    size: 18,
+                  ),
+                  const SizedBox(height: 15),
+                ],
+                Divider(height: 1.0),
+                _buildTextComposer(),
+              ],
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _handleSubmitted(_controller.text),
@@ -103,7 +127,7 @@ class _ChatScreenState extends State<ChatScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        color: Colors.grey[900],
+        color: Colors.grey[800],
         borderRadius: BorderRadius.circular(25.0),
       ),
       child: Row(
@@ -147,7 +171,7 @@ class ChatMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isUser = sender == "User";
+    bool isUser = sender == "PixelPen";
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10.0),
       child: Row(
