@@ -12,8 +12,8 @@ import 'welcomescreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final cameras = await availableCameras();
-  final firstCamera = cameras.first;
+  //final cameras = await availableCameras();
+  //final firstCamera = cameras.first;
 
   runApp(
     MaterialApp(
@@ -34,16 +34,6 @@ Future<void> main() async {
               builder: (context) => ImagePanel(
                 imagePath: args['imagePath'],
                 imagePaths: args['imagePaths'],
-                //  //imagePaths: (args['imagePaths'] as List<dynamic>).cast<String>(),
-                // onDelete: args['onDelete'],
-                // // onUpdate: () {
-                // Implement the logic to trigger update after deletion
-                // This callback will be called from the ImagePanel widget
-                // and should trigger a rebuild of the parent widget containing
-                // the CameraInput widget.
-                //  },
-                //   //isBatchMode: args['isBatchMode'],
-                //  // onDelete: args['onDelete'] as void Function(String),
               ),
             );
           }

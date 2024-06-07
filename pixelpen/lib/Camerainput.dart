@@ -193,14 +193,15 @@ class _CameraInputState extends State<CameraInput> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: isCameraInitialized
           ? Stack(
               children: [
                 // Camera preview
                 Center(
                     child: Container(
-                  height: 875,
-                  width: 450,
+                  height: 872,
+                  width: 394,
                   child: CameraPreview(controller!),
                 )),
 
@@ -234,6 +235,7 @@ class _CameraInputState extends State<CameraInput> {
                             child: Text(
                               'Single',
                               style: TextStyle(
+                                fontWeight: FontWeight.bold,
                                 color:
                                     !isBatchMode ? Colors.green : Colors.white,
                               ),
@@ -262,6 +264,7 @@ class _CameraInputState extends State<CameraInput> {
                             child: Text(
                               'Batch',
                               style: TextStyle(
+                                fontWeight: FontWeight.bold,
                                 color:
                                     isBatchMode ? Colors.green : Colors.white,
                               ),
@@ -339,7 +342,6 @@ class _CameraInputState extends State<CameraInput> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.red,
-                                //borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
                                 '${batchImages.length}',
@@ -413,9 +415,9 @@ class _CameraInputState extends State<CameraInput> {
                         height: 60,
                         width: 60,
                         child: Icon(
-                          currentFlashMode == FlashMode.torch
-                              ? Icons.flash_on
-                              : Icons.flash_off,
+                          currentFlashMode == FlashMode.off
+                              ? Icons.flash_off
+                              : Icons.flash_on,
                           size: 30,
                           color: Colors.white,
                         )),
