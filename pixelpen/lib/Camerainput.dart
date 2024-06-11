@@ -193,7 +193,7 @@ class _CameraInputState extends State<CameraInput> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      //backgroundColor: Colors.black,
       body: isCameraInitialized
           ? Stack(
               children: [
