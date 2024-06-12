@@ -163,26 +163,33 @@ class _TranslateScreenState extends State<TranslateScreen>
                     ),
                     SizedBox(height: 20),
                     Expanded(
-                      child: TextField(
-                        controller: _textController,
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: 'Type or paste here to translate',
-                          hintStyle: TextStyle(color: Colors.white54),
-                          filled: true,
-                          fillColor: Colors.grey[850],
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                            borderSide: BorderSide.none,
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(Icons.clear, color: Colors.white),
-                            onPressed: _clearText,
-                          ),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[850],
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        maxLines: null,
-                        keyboardType: TextInputType.multiline,
-                        textInputAction: TextInputAction.newline,
+                        child: TextField(
+                          textAlignVertical: TextAlignVertical.top,
+                          controller: _textController,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Type or paste here to translate',
+                            hintStyle:
+                                TextStyle(color: Colors.white54, fontSize: 17),
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.clear, color: Colors.white),
+                              onPressed: _clearText,
+                            ),
+                          ),
+                          maxLines: null,
+                          keyboardType: TextInputType.multiline,
+                          textInputAction: TextInputAction.newline,
+                        ),
                       ),
                     ),
                     SizedBox(height: 16.0),
@@ -275,7 +282,8 @@ class _TranslateScreenState extends State<TranslateScreen>
                                     'Translate',
                                     style: TextStyle(
                                         fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
                                   ),
                           ),
                         ),
@@ -316,7 +324,9 @@ class _TranslateScreenState extends State<TranslateScreen>
                             child: Text(
                               _translatedText,
                               style: TextStyle(
-                                  color: Colors.white, fontSize: 16.0),
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),

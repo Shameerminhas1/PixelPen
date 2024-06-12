@@ -193,17 +193,22 @@ class _CameraInputState extends State<CameraInput> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Colors.black,
+      backgroundColor: Colors.black,
       body: isCameraInitialized
           ? Stack(
               children: [
                 // Camera preview
-                Center(
-                    child: Container(
-                  height: 872,
-                  width: 394,
-                  child: CameraPreview(controller!),
-                )),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 17,
+                  ),
+                  child: Center(
+                      child: Container(
+                    //height: 872,
+                    //width: 394,
+                    child: CameraPreview(controller!),
+                  )),
+                ),
 
                 // Mode selector
                 Positioned(
@@ -277,7 +282,7 @@ class _CameraInputState extends State<CameraInput> {
                 ),
                 // Camera icon
                 Positioned(
-                  bottom: 30,
+                  bottom: 10,
                   left: 165,
                   child: IconButton(
                     icon: Container(
@@ -296,7 +301,7 @@ class _CameraInputState extends State<CameraInput> {
 // Gallery icon (only shown in batch mode)
                 if (isBatchMode)
                   Positioned(
-                    bottom: 35,
+                    bottom: 15,
                     right: 20,
                     child: Stack(
                       children: [
@@ -397,7 +402,7 @@ class _CameraInputState extends State<CameraInput> {
                 // Flash
                 ///new
                 Positioned(
-                  bottom: 35,
+                  bottom: 15,
                   left: 20,
                   child: IconButton(
                     iconSize: 45,

@@ -47,17 +47,30 @@ class _ImagePanelState extends State<ImagePanel> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm Delete'),
-          content: Text('Are you sure you want to delete this image?'),
+          backgroundColor: Colors.grey[850],
+          title: Text(
+            'Confirm Delete',
+            style: TextStyle(color: Colors.white),
+          ),
+          content: Text(
+            'Are you sure you want to delete this image?',
+            style: TextStyle(color: Colors.white),
+          ),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancel'),
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: Colors.white),
+              ),
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
             ),
             TextButton(
-              child: Text('Delete'),
+              child: Text(
+                'Delete',
+                style: TextStyle(color: Colors.white),
+              ),
               onPressed: () {
                 Navigator.of(context).pop(true);
               },
