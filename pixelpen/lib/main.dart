@@ -25,7 +25,7 @@ Future<void> main() async {
           'camerainput': (context) => CameraInput(),
           'readaloud': (context) => ReadAloud(),
           'translate': (context) => TranslateScreen(),
-          'chat_Screen': (context) => ChatScreen()
+          'chat_Screen': (context) => ChatScreen(),
         },
         onGenerateRoute: (settings) {
           if (settings.name == 'imagepanel') {

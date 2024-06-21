@@ -21,6 +21,7 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
     _model = GenerativeModel(
         model: 'gemini-1.5-flash',
+        //sk-proj-txMmDfVhdX63RP5iaOiBT3BlbkFJ8Zaqub6VXd8ddrmO6q7L
         apiKey: 'AIzaSyBX7BHTNXm6d5O4Pv_jbSbQ1A55f2kiJfQ');
   }
 
