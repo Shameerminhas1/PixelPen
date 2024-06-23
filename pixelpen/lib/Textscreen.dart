@@ -2,10 +2,12 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_tts/flutter_tts.dart';
 // import 'package:path_provider/path_provider.dart';
-// import 'package:pdf/pdf.dart';
 // import 'package:pdf/widgets.dart' as pw;
+// import 'package:pixelpen/Chat_screen.dart';
+// import 'package:pixelpen/Readaloud.dart';
+// import 'package:pixelpen/translate.dart';
 // import 'package:share_plus/share_plus.dart';
-// import 'package:flutter_localizations/flutter_localizations.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
 // class Textscreen extends StatefulWidget {
 //   @override
@@ -72,16 +74,25 @@
 //     );
 //   }
 
+//   void _shareToWhatsApp(String text) async {
+//     final url = 'https://wa.me/?text=${Uri.encodeComponent(text)}';
+//     if (await canLaunch(url)) {
+//       await launch(url);
+//     } else {
+//       throw 'Could not launch $url';
+//     }
+//   }
+
 //   void _readAloud(String text) async {
 //     await flutterTts.speak(text);
 //   }
 
-//   void _translateText(String text) {
-//     // Implement your translation logic here
+//   void _navigateToTranslateScreen(String text) {
+//     Navigator.pushNamed(context, 'translate', arguments: text);
 //   }
 
-//   void _chatAi(String text) {
-//     // Implement your AI chat logic here
+//   void _navigateToChatAiScreen(String text) {
+//     Navigator.pushNamed(context, 'chat_Screen', arguments: text);
 //   }
 
 //   void _showSaveDialog() {
@@ -133,6 +144,7 @@
 //                 controller: _controller,
 //                 maxLines: null,
 //                 expands: true,
+//                 textAlignVertical: TextAlignVertical.top,
 //                 decoration: InputDecoration(
 //                   hintText: 'Enter your text here',
 //                   border: OutlineInputBorder(),
@@ -147,21 +159,44 @@
 //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 //           children: [
 //             IconButton(
-//               icon: Icon(Icons.volume_up),
-//               onPressed: () => _readAloud(_controller.text),
-//             ),
+//                 icon: Icon(Icons.volume_up),
+//                 onPressed: () {
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                       builder: (context) =>
+//                           ReadAloud(initialText: _controller.text),
+//                     ),
+//                   );
+//                 }),
 //             IconButton(
-//               icon: Icon(Icons.chat),
-//               onPressed: () => _chatAi(_controller.text),
-//             ),
+//                 icon: Icon(Icons.chat),
+//                 onPressed: () {
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                       builder: (context) =>
+//                           ChatScreen(initialText: _controller.text),
+//                     ),
+//                   );
+//                 }),
 //             IconButton(
-//               icon: Icon(Icons.translate),
-//               onPressed: () => _translateText(_controller.text),
-//             ),
+//                 icon: Icon(Icons.translate),
+//                 onPressed: () {
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                       builder: (context) => TranslateScreen(
+//                         initialText: _controller.text,
+//                       ),
+//                     ),
+//                   );
+//                 }),
 //             IconButton(
 //               icon: Icon(Icons.share),
-//               onPressed:
-//                   savedFile != null ? () => _shareFile(savedFile!) : null,
+//               onPressed: savedFile != null
+//                   ? () => _shareFile(savedFile!)
+//                   : () => _shareToWhatsApp(_controller.text),
 //             ),
 //           ],
 //         ),
@@ -169,16 +204,15 @@
 //     );
 //   }
 // }
-//////--------------------------------------------------------------
-
+//#------------------
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:pixelpen/Chat_screen.dart';
-import 'package:pixelpen/Readaloud.dart';
-import 'package:pixelpen/translate.dart';
+import 'package:pixelpen/Chat_screen.dart'; // Replace with actual import if needed
+import 'package:pixelpen/Readaloud.dart'; // Replace with actual import if needed
+import 'package:pixelpen/translate.dart'; // Replace with actual import if needed
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -203,7 +237,7 @@ class _TextscreenState extends State<Textscreen> {
     );
 
     final output = await getExternalStorageDirectory();
-    final file = File("${output!.path}/document.pdf");
+    final file = File("${output!.path}/pixelpdf.pdf");
     await file.writeAsBytes(await pdf.save());
 
     setState(() {
@@ -211,11 +245,12 @@ class _TextscreenState extends State<Textscreen> {
     });
 
     _shareFile(file);
+    _showSnackBar('PDF file saved successfully');
   }
 
   void _saveAsDoc(String text) async {
     final output = await getExternalStorageDirectory();
-    final file = File("${output!.path}/document.doc");
+    final file = File("${output!.path}/pixeldoc.doc");
     await file.writeAsString(text);
 
     setState(() {
@@ -223,6 +258,7 @@ class _TextscreenState extends State<Textscreen> {
     });
 
     _shareFile(file);
+    _showSnackBar('DOC file saved successfully');
   }
 
   void _shareFile(File file) async {
@@ -234,25 +270,71 @@ class _TextscreenState extends State<Textscreen> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Share result: ${shareResult.status}"),
-            if (shareResult.status == ShareResultStatus.success)
-              Text("Shared to: ${shareResult.raw}")
-          ],
+        backgroundColor: Colors.blue.shade900,
+        behavior: SnackBarBehavior.floating,
+        content: Container(
+          padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                shareResult.status == ShareResultStatus.success
+                    ? Icons.check_circle_outline
+                    : Icons.error_outline,
+                color: shareResult.status == ShareResultStatus.success
+                    ? Colors.green
+                    : Colors.red,
+              ),
+              SizedBox(width: 12.0),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      shareResult.status == ShareResultStatus.success
+                          ? 'Shared successfully!'
+                          : 'Share failed!',
+                      style: TextStyle(
+                        color: shareResult.status == ShareResultStatus.success
+                            ? Colors.green
+                            : Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    if (shareResult.status == ShareResultStatus.success)
+                      Text(
+                        'Shared to: ${shareResult.raw}',
+                        style: TextStyle(fontSize: 14.0),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        action: SnackBarAction(
+          label: 'Close',
+          textColor: Colors.white,
+          onPressed: () {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          },
         ),
       ),
     );
   }
 
   void _shareToWhatsApp(String text) async {
-    final url = 'https://wa.me/?text=${Uri.encodeComponent(text)}';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
+    final url = 'whatsapp://send?text=${Uri.encodeComponent(text)}';
+    try {
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    } catch (e) {
+      print('Error launching WhatsApp: $e');
     }
   }
 
@@ -296,6 +378,19 @@ class _TextscreenState extends State<Textscreen> {
     );
   }
 
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(fontSize: 16.0),
+        ),
+        backgroundColor: Colors.blue.shade900,
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -306,25 +401,54 @@ class _TextscreenState extends State<Textscreen> {
             icon: Icon(Icons.save),
             onPressed: _showSaveDialog,
           ),
+          IconButton(
+            icon: Icon(Icons.clear),
+            onPressed: () {
+              _controller.clear();
+            },
+          ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: _controller,
-                maxLines: null,
-                expands: true,
-                textAlignVertical: TextAlignVertical.top,
-                decoration: InputDecoration(
-                  hintText: 'Enter your text here',
-                  border: OutlineInputBorder(),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.blue.shade200,
+              Colors.blue.shade700,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  elevation: 8.0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: _controller,
+                      maxLines: null,
+                      expands: true,
+                      textAlignVertical: TextAlignVertical.top,
+                      style: TextStyle(fontSize: 16.0),
+                      decoration: InputDecoration(
+                        hintText: 'Enter your text here',
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.all(12.0),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
@@ -332,41 +456,47 @@ class _TextscreenState extends State<Textscreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             IconButton(
-                icon: Icon(Icons.volume_up),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          ReadAloud(initialText: _controller.text),
-                    ),
-                  );
-                }),
+              icon: Icon(Icons.volume_up),
+              tooltip: 'Read Aloud',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ReadAloud(initialText: _controller.text),
+                  ),
+                );
+              },
+            ),
             IconButton(
-                icon: Icon(Icons.chat),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          ChatScreen(initialText: _controller.text),
-                    ),
-                  );
-                }),
+              icon: Icon(Icons.chat),
+              tooltip: 'Chat AI',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ChatScreen(initialText: _controller.text),
+                  ),
+                );
+              },
+            ),
             IconButton(
-                icon: Icon(Icons.translate),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TranslateScreen(
-                        initialText: _controller.text,
-                      ),
-                    ),
-                  );
-                }),
+              icon: Icon(Icons.translate),
+              tooltip: 'Translate',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        TranslateScreen(initialText: _controller.text),
+                  ),
+                );
+              },
+            ),
             IconButton(
               icon: Icon(Icons.share),
+              tooltip: 'Share',
               onPressed: savedFile != null
                   ? () => _shareFile(savedFile!)
                   : () => _shareToWhatsApp(_controller.text),
