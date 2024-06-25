@@ -500,12 +500,22 @@ class _HomeScreenState extends State<HomeScreen> {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         )),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 60.0, left: 8.0, right: 8.0, bottom: 8.0),
-              child: TextField(
+        child: Padding(
+          padding: const EdgeInsets.only(
+              top: 60.0, left: 8.0, right: 8.0, bottom: 8.0),
+          child: Column(
+            children: [
+              Text(
+                'WELCOME TO PIXELPEN',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.search, color: Colors.blue.shade700),
@@ -518,69 +528,69 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: searchResults.length,
-                itemBuilder: (context, index) {
-                  final file = searchResults[index];
-                  bool isHighlighted = _searchController.text.isNotEmpty &&
-                      file.path
-                          .toLowerCase()
-                          .contains(_searchController.text.toLowerCase());
+              Expanded(
+                child: ListView.builder(
+                  itemCount: searchResults.length,
+                  itemBuilder: (context, index) {
+                    final file = searchResults[index];
+                    bool isHighlighted = _searchController.text.isNotEmpty &&
+                        file.path
+                            .toLowerCase()
+                            .contains(_searchController.text.toLowerCase());
 
-                  return Card(
-                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    color: isHighlighted ? Colors.blue.shade100 : null,
-                    child: ListTile(
-                      leading: Icon(
-                        file.path.endsWith('.pdf')
-                            ? Icons.picture_as_pdf
-                            : Icons.insert_drive_file,
-                        color: Colors.blue.shade700,
+                    return Card(
+                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      color: isHighlighted ? Colors.blue.shade100 : null,
+                      child: ListTile(
+                        leading: Icon(
+                          file.path.endsWith('.pdf')
+                              ? Icons.picture_as_pdf
+                              : Icons.insert_drive_file,
+                          color: Colors.blue.shade700,
+                        ),
+                        title: Text(file.path.split('/').last),
+                        subtitle: Text(
+                            'Modified: ${file.lastModifiedSync().toLocal()}'),
+                        onTap: () => _viewFile(file),
+                        trailing: PopupMenuButton<String>(
+                          onSelected: (value) {
+                            if (value == 'rename') {
+                              _renameFile(file);
+                            } else if (value == 'share') {
+                              _shareFile(file);
+                            } else if (value == 'edit') {
+                              _editFileContent(file);
+                            } else if (value == 'delete') {
+                              _deleteFile(file);
+                            }
+                          },
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<String>>[
+                            PopupMenuItem<String>(
+                              value: 'rename',
+                              child: Text('Rename'),
+                            ),
+                            PopupMenuItem<String>(
+                              value: 'share',
+                              child: Text('Share'),
+                            ),
+                            PopupMenuItem<String>(
+                              value: 'edit',
+                              child: Text('Edit'),
+                            ),
+                            PopupMenuItem<String>(
+                              value: 'delete',
+                              child: Text('Delete'),
+                            ),
+                          ],
+                        ),
                       ),
-                      title: Text(file.path.split('/').last),
-                      subtitle: Text(
-                          'Modified: ${file.lastModifiedSync().toLocal()}'),
-                      onTap: () => _viewFile(file),
-                      trailing: PopupMenuButton<String>(
-                        onSelected: (value) {
-                          if (value == 'rename') {
-                            _renameFile(file);
-                          } else if (value == 'share') {
-                            _shareFile(file);
-                          } else if (value == 'edit') {
-                            _editFileContent(file);
-                          } else if (value == 'delete') {
-                            _deleteFile(file);
-                          }
-                        },
-                        itemBuilder: (BuildContext context) =>
-                            <PopupMenuEntry<String>>[
-                          PopupMenuItem<String>(
-                            value: 'rename',
-                            child: Text('Rename'),
-                          ),
-                          PopupMenuItem<String>(
-                            value: 'share',
-                            child: Text('Share'),
-                          ),
-                          PopupMenuItem<String>(
-                            value: 'edit',
-                            child: Text('Edit'),
-                          ),
-                          PopupMenuItem<String>(
-                            value: 'delete',
-                            child: Text('Delete'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButton: Padding(

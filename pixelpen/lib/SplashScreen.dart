@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pixelpen/Home.dart';
 import 'package:pixelpen/welcomescreen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -42,7 +43,9 @@ class _SplashScreenState extends State<SplashScreen>
   void navigateToWelcomeSCreen() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => WelcomeScreen()),
+      MaterialPageRoute(builder: (context) => HomeScreen()
+          //WelcomeScreen()
+          ),
     );
   }
 
