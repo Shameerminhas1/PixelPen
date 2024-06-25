@@ -853,16 +853,20 @@ class _TextscreenState extends State<Textscreen> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              TextField(
-                controller: _fileNameController,
-                decoration: InputDecoration(
-                  fillColor: Colors.white70,
-                  filled: true,
-                  hintText: 'Enter file name',
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(80.0)),
-                  contentPadding: EdgeInsets.all(12.0),
-                ),
+              Row(
+                children: [
+                  TextField(
+                    controller: _fileNameController,
+                    decoration: InputDecoration(
+                      fillColor: Colors.white70,
+                      filled: true,
+                      hintText: 'Enter file name',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(80.0)),
+                      contentPadding: EdgeInsets.all(12.0),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: 16.0),
               Expanded(
