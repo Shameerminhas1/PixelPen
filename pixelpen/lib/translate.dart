@@ -1176,28 +1176,31 @@ class _TranslateScreenState extends State<TranslateScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Colors.white,
+          color: Colors.black,
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
           'Translate Menu',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: 800,
+          height: 700,
           child: Stack(
             children: [
               AnimatedContainer(
                 duration: Duration(seconds: 3),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.black, Colors.grey[850]!],
+                    colors: [
+                      Colors.blue.shade200,
+                      Colors.blue.shade700,
+                    ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -1208,35 +1211,35 @@ class _TranslateScreenState extends State<TranslateScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      'Welcome back!',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 20),
+                    // Text(
+                    //   'Welcome back!',
+                    //   style: TextStyle(
+                    //       color: Colors.black,
+                    //       fontSize: 24,
+                    //       fontWeight: FontWeight.bold),
+                    // ),
+                    //SizedBox(height: 20),
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
-                          color: Colors.grey[850],
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: TextField(
                           textAlignVertical: TextAlignVertical.top,
                           controller: _textController,
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Type or paste here to translate',
                             hintStyle:
-                                TextStyle(color: Colors.white54, fontSize: 17),
+                                TextStyle(color: Colors.black, fontSize: 17),
                             suffixIcon: IconButton(
-                              icon: Icon(Icons.clear, color: Colors.white),
+                              icon: Icon(Icons.clear, color: Colors.black),
                               onPressed: _clearText,
                             ),
                           ),
@@ -1254,11 +1257,11 @@ class _TranslateScreenState extends State<TranslateScreen>
                           child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 12.0),
                             decoration: BoxDecoration(
-                              color: Colors.grey[850],
+                              color: Colors.white70,
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                             child: DropdownButton<String>(
-                              dropdownColor: Colors.grey[850],
+                              dropdownColor: Colors.indigo,
                               value: _selectedUrduMessage,
                               isExpanded: true,
                               underline: SizedBox(),
@@ -1267,7 +1270,7 @@ class _TranslateScreenState extends State<TranslateScreen>
                                   value: entry.value,
                                   child: Text(
                                     entry.key,
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(color: Colors.black),
                                   ),
                                 );
                               }).toList(),
@@ -1287,11 +1290,11 @@ class _TranslateScreenState extends State<TranslateScreen>
                           child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 12.0),
                             decoration: BoxDecoration(
-                              color: Colors.grey[850],
+                              color: Colors.white70,
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                             child: DropdownButton<String>(
-                              dropdownColor: Colors.grey[850],
+                              dropdownColor: Colors.indigo,
                               value: _selectedLanguage,
                               isExpanded: true,
                               underline: SizedBox(),
@@ -1300,7 +1303,7 @@ class _TranslateScreenState extends State<TranslateScreen>
                                   value: entry.value,
                                   child: Text(
                                     entry.key,
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(color: Colors.black),
                                   ),
                                 );
                               }).toList(),
@@ -1320,7 +1323,7 @@ class _TranslateScreenState extends State<TranslateScreen>
                         Expanded(
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blueAccent,
+                              backgroundColor: Colors.indigo,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
@@ -1371,14 +1374,14 @@ class _TranslateScreenState extends State<TranslateScreen>
                         child: Container(
                           padding: EdgeInsets.all(16.0),
                           decoration: BoxDecoration(
-                            color: Colors.grey[850],
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                           child: SingleChildScrollView(
                             child: Text(
                               _translatedText,
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold),
                             ),

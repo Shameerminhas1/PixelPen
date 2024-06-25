@@ -49,6 +49,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:pixelpen/Camerainput.dart';
 import 'package:pixelpen/Chat_screen.dart';
+import 'package:pixelpen/Home.dart';
 import 'package:pixelpen/Imagepanel.dart';
 import 'package:pixelpen/Readaloud.dart';
 import 'package:pixelpen/Textscreen.dart';
@@ -70,7 +71,8 @@ Future<void> main() async {
           'readaloud': (context) => ReadAloud(),
           'translate': (context) => TranslateScreen(),
           'chat_Screen': (context) => ChatScreen(),
-          'Textscreen': (context) => Textscreen()
+          'Textscreen': (context) => Textscreen(),
+          'home': (context) => HomeScreen()
         },
         onGenerateRoute: (settings) {
           if (settings.name == 'imagepanel') {

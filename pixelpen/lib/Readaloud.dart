@@ -275,13 +275,13 @@ class _ReadAloudState extends State<ReadAloud> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         title: Text(
           'Read Aloud',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
         iconTheme: IconThemeData(
-          color: Colors.white,
+          color: Colors.black,
         ),
       ),
       body: Stack(
@@ -290,7 +290,7 @@ class _ReadAloudState extends State<ReadAloud> {
             duration: Duration(seconds: 3),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.black, Colors.grey[850]!],
+                colors: [Colors.blue.shade200, Colors.blue.shade700],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -304,7 +304,7 @@ class _ReadAloudState extends State<ReadAloud> {
                 SizedBox(height: 20),
                 Text(
                   'Welcome back!',
-                  style: TextStyle(color: Colors.white, fontSize: 24),
+                  style: TextStyle(color: Colors.black, fontSize: 24),
                 ),
                 SizedBox(height: 20),
                 Expanded(
@@ -334,14 +334,14 @@ class _ReadAloudState extends State<ReadAloud> {
                     style: ElevatedButton.styleFrom(
                       shape: CircleBorder(),
                       padding: EdgeInsets.all(24),
-                      backgroundColor: Colors.black,
+                      backgroundColor: Colors.white,
                       elevation: 5,
                     ),
                     onPressed: _detectLanguageAndSpeak,
                     child: Icon(
                       Icons.volume_up_rounded,
                       size: 45,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                 ),

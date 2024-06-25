@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pixelpen/CameraInput.dart';
 import 'package:pixelpen/Chat_screen.dart';
+import 'package:pixelpen/Home.dart';
 import 'package:pixelpen/Readaloud.dart';
 import 'package:pixelpen/Textscreen.dart';
 import 'package:pixelpen/translate.dart';
@@ -10,7 +11,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(right: 50, top: 10),
+        padding: const EdgeInsets.only(right: 50),
         child: Row(
           children: [
             Expanded(
@@ -31,7 +32,7 @@ class WelcomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 200,
+                    height: 100,
                   ),
                   Text(
                     'WELCOME',
@@ -217,6 +218,44 @@ class WelcomeScreen extends StatelessWidget {
                         children: [
                           Text(
                             'LETS WRITE   ',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Icon(
+                            Icons.generating_tokens_outlined,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        //fixedSize: (),
+                        backgroundColor: Colors
+                            .green, // Change this color to your desired color
+                      ),
+                      // onHover: ,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomeScreen(),
+                            //ChatScreen(),
+                          ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            'Home   ',
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,

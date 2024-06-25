@@ -310,13 +310,13 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         title: Text(
           'AI Generator',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
         iconTheme: IconThemeData(
-          color: Colors.white,
+          color: Colors.black,
         ),
       ),
       body: Stack(
@@ -325,7 +325,7 @@ class _ChatScreenState extends State<ChatScreen> {
             duration: Duration(seconds: 3),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.black, Colors.grey[850]!],
+                colors: [Colors.blue.shade200, Colors.blue.shade700],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -359,8 +359,11 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _handleSubmitted(_controller.text),
-        backgroundColor: Colors.grey,
-        child: Icon(Icons.send),
+        backgroundColor: Colors.indigo,
+        child: Icon(
+          Icons.send,
+          color: Colors.white,
+        ),
       ),
     );
   }
@@ -370,16 +373,13 @@ class _ChatScreenState extends State<ChatScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        color: Colors.grey[800],
+        color: Colors.white,
         borderRadius: BorderRadius.circular(25.0),
       ),
       child: Row(
         children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.circle, color: Colors.white),
-            onPressed: () {
-              // Handle mic press
-            },
+          SizedBox(
+            width: 15,
           ),
           Flexible(
             child: TextField(
@@ -390,7 +390,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 hintText: 'Enter text to generate response',
                 hintStyle: TextStyle(color: Colors.grey),
               ),
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black),
             ),
           ),
           Padding(
@@ -444,19 +444,19 @@ class ChatMessage extends StatelessWidget {
                   margin: const EdgeInsets.only(top: 5.0),
                   padding: const EdgeInsets.all(10.0),
                   decoration: BoxDecoration(
-                    color: isUser ? Colors.blueAccent : Colors.grey[700],
+                    color: isUser ? Colors.white : Colors.white70,
                     borderRadius: BorderRadius.circular(15.0),
                     boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 4.0,
-                        offset: Offset(2, 2),
-                      ),
+                      // BoxShadow(
+                      //   color: Colors.white,
+                      //   blurRadius: 4.0,
+                      //   offset: Offset(2, 2),
+                      // ),
                     ],
                   ),
                   child: Text(
                     text,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.black),
                   ),
                 ),
               ],
