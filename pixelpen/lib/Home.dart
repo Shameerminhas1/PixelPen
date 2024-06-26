@@ -502,7 +502,7 @@ class _HomeScreenState extends State<HomeScreen> {
         )),
         child: Padding(
           padding: const EdgeInsets.only(
-              top: 60.0, left: 8.0, right: 8.0, bottom: 8.0),
+              top: 65.0, left: 8.0, right: 8.0, bottom: 8.0),
           child: Column(
             children: [
               Text(
@@ -513,7 +513,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: 20),
               ),
               SizedBox(
-                height: 10,
+                height: 15,
               ),
               TextField(
                 controller: _searchController,
