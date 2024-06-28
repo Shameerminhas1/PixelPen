@@ -240,7 +240,7 @@
 //     );
 //   }
 // }
-////----------------------------
+//----------------------------
 
 // import 'dart:io';
 // import 'package:flutter/material.dart';
@@ -322,15 +322,35 @@
 //             TextButton(
 //               child: Text('Update'),
 //               onPressed: () async {
-//                 final directory = await getExternalStorageDirectory();
-//                 String newName = _renameController.text;
+//                 String newName = _renameController.text.trim();
 //                 if (newName.isNotEmpty) {
-//                   String newPath =
-//                       '${directory!.path}/$newName${file.path.endsWith('.pdf') ? '.pdf' : '.doc'}';
-//                   file.renameSync(newPath);
-//                   setState(() {
-//                     _loadSavedFiles(); // Refresh the file list
-//                   });
+//                   final directory = await getExternalStorageDirectory();
+//                   String extension = file.path.split('.').last;
+//                   String newPath = '${directory!.path}/$newName.$extension';
+
+//                   try {
+//                     file.renameSync(newPath);
+//                     setState(() {
+//                       int index = savedFiles.indexOf(file);
+//                       savedFiles[index] = File(newPath);
+//                       _searchFiles(); // Refresh the search results if needed
+//                     });
+//                   } catch (e) {
+//                     print('Error renaming file: $e');
+//                     ScaffoldMessenger.of(context).showSnackBar(
+//                       SnackBar(
+//                         content: Text('Failed to rename file.'),
+//                         backgroundColor: Colors.red,
+//                       ),
+//                     );
+//                   }
+//                 } else {
+//                   ScaffoldMessenger.of(context).showSnackBar(
+//                     SnackBar(
+//                       content: Text('Please enter a valid file name.'),
+//                       backgroundColor: Colors.red,
+//                     ),
+//                   );
 //                 }
 //                 Navigator.of(context).pop();
 //               },
@@ -612,8 +632,9 @@
 //     );
 //   }
 // }
+///-
+///
 
-//----
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -635,27 +656,30 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _loadSavedFiles();
+    _fetchSavedFiles();
     _searchController.addListener(_searchFiles);
   }
 
-  void _loadSavedFiles() async {
+  Future<List<File>> _loadSavedFiles() async {
     final directory = await getExternalStorageDirectory();
-    if (directory != null) {
-      final files = directory
-          .listSync()
-          .where((file) {
-            final path = file.path;
-            return path.endsWith('.pdf') || path.endsWith('.doc');
-          })
-          .map((file) => File(file.path))
-          .toList();
+    final files = directory!
+        .listSync()
+        .where((file) {
+          final path = file.path;
+          return path.endsWith('.pdf') || path.endsWith('.doc');
+        })
+        .map((file) => File(file.path))
+        .toList();
 
-      setState(() {
-        savedFiles = files;
-        searchResults = files;
-      });
-    }
+    return files;
+  }
+
+  void _fetchSavedFiles() async {
+    final files = await _loadSavedFiles();
+    setState(() {
+      savedFiles = files;
+      searchResults = files;
+    });
   }
 
   void _searchFiles() {
@@ -667,14 +691,10 @@ class _HomeScreenState extends State<HomeScreen> {
         searchResults = savedFiles.where((file) {
           return file.path.toLowerCase().contains(query);
         }).toList();
-      }
-    });
-  }
 
-  void _addNewFile(File newFile) {
-    setState(() {
-      savedFiles.add(newFile);
-      _searchFiles(); // Re-filter the list based on the current search query
+        searchResults
+            .sort((a, b) => a.path.toLowerCase().contains(query) ? -1 : 1);
+      }
     });
   }
 
@@ -700,15 +720,35 @@ class _HomeScreenState extends State<HomeScreen> {
             TextButton(
               child: Text('Update'),
               onPressed: () async {
-                final directory = await getExternalStorageDirectory();
-                String newName = _renameController.text;
+                String newName = _renameController.text.trim();
                 if (newName.isNotEmpty) {
-                  String newPath =
-                      '${directory!.path}/$newName${file.path.endsWith('.pdf') ? '.pdf' : '.doc'}';
-                  file.renameSync(newPath);
-                  setState(() {
-                    _loadSavedFiles(); // Refresh the file list
-                  });
+                  final directory = await getExternalStorageDirectory();
+                  String extension = file.path.split('.').last;
+                  String newPath = '${directory!.path}/$newName.$extension';
+
+                  try {
+                    file.renameSync(newPath);
+                    setState(() {
+                      int index = savedFiles.indexOf(file);
+                      savedFiles[index] = File(newPath);
+                      _searchFiles(); // Refresh the search results if needed
+                    });
+                  } catch (e) {
+                    print('Error renaming file: $e');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Failed to rename file.'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Please enter a valid file name.'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
                 }
                 Navigator.of(context).pop();
               },
@@ -855,7 +895,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 file.deleteSync(); // Delete the file
                 setState(() {
                   savedFiles.remove(file); // Remove from the list
-                  _searchFiles(); // Re-filter the list based on the current search query
                 });
                 Navigator.of(context).pop(); // Close the dialog
               },
@@ -871,15 +910,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.blue.shade200,
-              Colors.blue.shade700,
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+            gradient: LinearGradient(
+          colors: [
+            Colors.blue.shade200,
+            Colors.blue.shade700,
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        )),
         child: Padding(
           padding: const EdgeInsets.only(
               top: 65.0, left: 8.0, right: 8.0, bottom: 8.0),
@@ -978,15 +1016,11 @@ class _HomeScreenState extends State<HomeScreen> {
           bottom: 35,
         ),
         child: FloatingActionButton(
-          onPressed: () async {
-            File? newFile = await Navigator.push(
+          onPressed: () {
+            Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => CameraInput()),
             );
-            if (newFile != null) {
-              _addNewFile(newFile);
-              print("New file added: ${newFile.path}");
-            }
           },
           backgroundColor: Colors.white,
           child: Icon(Icons.camera_enhance, color: Colors.blue.shade700),
