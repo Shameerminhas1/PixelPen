@@ -320,7 +320,8 @@ class _ReadAloudState extends State<ReadAloud> {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Enter text to read aloud',
-                        hintStyle: TextStyle(color: Colors.grey),
+                        hintStyle: TextStyle(
+                            color: Colors.grey, fontWeight: FontWeight.bold),
                       ),
                       maxLines: null, // Allows multiple lines
                       keyboardType: TextInputType.multiline,

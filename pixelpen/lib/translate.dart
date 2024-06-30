@@ -1190,7 +1190,7 @@ class _TranslateScreenState extends State<TranslateScreen>
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: 700,
+          height: 785,
           child: Stack(
             children: [
               AnimatedContainer(
@@ -1231,7 +1231,7 @@ class _TranslateScreenState extends State<TranslateScreen>
                           controller: _textController,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 20,
+                              //fontSize: 20,
                               fontWeight: FontWeight.bold),
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -1382,7 +1382,7 @@ class _TranslateScreenState extends State<TranslateScreen>
                               _translatedText,
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: 17,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),

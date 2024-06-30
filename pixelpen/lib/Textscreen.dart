@@ -261,7 +261,8 @@ class _TextscreenState extends State<Textscreen> {
                       maxLines: null,
                       expands: true,
                       textAlignVertical: TextAlignVertical.top,
-                      style: TextStyle(fontSize: 16.0),
+                      style: TextStyle(
+                          fontSize: 16.0, fontWeight: FontWeight.bold),
                       decoration: InputDecoration(
                         hintText: 'Enter your text here',
                         border: InputBorder.none,

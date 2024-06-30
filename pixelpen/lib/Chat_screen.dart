@@ -4,6 +4,10 @@
 // import 'dart:io';
 
 // class ChatScreen extends StatefulWidget {
+//   final String initialText;
+
+//   ChatScreen({this.initialText = ''});
+
 //   @override
 //   _ChatScreenState createState() => _ChatScreenState();
 // }
@@ -20,9 +24,12 @@
 //   void initState() {
 //     super.initState();
 //     _model = GenerativeModel(
-//         model: 'gemini-1.5-flash',
-//         //sk-proj-txMmDfVhdX63RP5iaOiBT3BlbkFJ8Zaqub6VXd8ddrmO6q7L
-//         apiKey: 'AIzaSyBX7BHTNXm6d5O4Pv_jbSbQ1A55f2kiJfQ');
+//       model: 'gemini-1.5-flash',
+//       apiKey:
+//           'AIzaSyBX7BHTNXm6d5O4Pv_jbSbQ1A55f2kiJfQ', // Replace with your actual API key
+//     );
+//     _controller.text =
+//         widget.initialText; // Initialize text controller with initial text
 //   }
 
 //   @override
@@ -68,13 +75,13 @@
 //   Widget build(BuildContext context) {
 //     return Scaffold(
 //       appBar: AppBar(
-//         backgroundColor: Colors.black,
+//         backgroundColor: Colors.white,
 //         title: Text(
 //           'AI Generator',
-//           style: TextStyle(color: Colors.white),
+//           style: TextStyle(color: Colors.black),
 //         ),
 //         iconTheme: IconThemeData(
-//           color: Colors.white,
+//           color: Colors.black,
 //         ),
 //       ),
 //       body: Stack(
@@ -83,7 +90,7 @@
 //             duration: Duration(seconds: 3),
 //             decoration: BoxDecoration(
 //               gradient: LinearGradient(
-//                 colors: [Colors.black, Colors.grey[850]!],
+//                 colors: [Colors.blue.shade200, Colors.blue.shade700],
 //                 begin: Alignment.topLeft,
 //                 end: Alignment.bottomRight,
 //               ),
@@ -108,57 +115,62 @@
 //                   ),
 //                   const SizedBox(height: 15),
 //                 ],
-//                 Divider(height: 1.0),
+//                 Divider(
+//                   height: 0.1,
+//                   color: Colors.white,
+//                 ),
 //                 _buildTextComposer(),
 //               ],
 //             ),
 //           ),
 //         ],
 //       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: () => _handleSubmitted(_controller.text),
-//         backgroundColor: Colors.grey,
-//         child: Icon(Icons.send),
-//       ),
 //     );
 //   }
 
 //   Widget _buildTextComposer() {
-//     return Container(
-//       margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-//       padding: const EdgeInsets.all(8.0),
-//       decoration: BoxDecoration(
-//         color: Colors.grey[800],
-//         borderRadius: BorderRadius.circular(25.0),
-//       ),
-//       child: Row(
-//         children: <Widget>[
-//           IconButton(
-//             icon: Icon(Icons.circle, color: Colors.white),
-//             onPressed: () {
-//               // Handle mic press
-//             },
-//           ),
-//           Flexible(
-//             child: TextField(
-//               controller: _controller,
-//               focusNode: _focusNode,
-//               onSubmitted: _handleSubmitted,
-//               decoration: InputDecoration.collapsed(
-//                 hintText: 'Enter text to generate response',
-//                 hintStyle: TextStyle(color: Colors.grey),
+//     return Padding(
+//       padding: const EdgeInsets.only(bottom: 10, top: 5),
+//       child: Container(
+//         margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+//         decoration: BoxDecoration(
+//           color: Colors.white,
+//           borderRadius: BorderRadius.circular(25.0),
+//         ),
+//         child: Row(
+//           children: <Widget>[
+//             SizedBox(
+//               width: 15,
+//             ),
+//             Flexible(
+//               child: TextField(
+//                 maxLines: null,
+//                 controller: _controller,
+//                 focusNode: _focusNode,
+//                 onSubmitted: _handleSubmitted,
+//                 decoration: InputDecoration.collapsed(
+//                   hintText: 'Enter text to generate response',
+//                   hintStyle: TextStyle(color: Colors.grey),
+//                 ),
+//                 style: TextStyle(
+//                   color: Colors.black,
+//                   fontWeight: FontWeight.bold,
+//                 ),
 //               ),
-//               style: TextStyle(color: Colors.white),
 //             ),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.only(top: 15),
-//             child: IconButton(
-//               icon: Icon(Icons.send, color: Colors.white),
-//               onPressed: () => _handleSubmitted(_controller.text),
+//             Padding(
+//               padding: const EdgeInsets.only(top: 8, right: 8, bottom: 8),
+//               child: FloatingActionButton.small(
+//                 onPressed: () => _handleSubmitted(_controller.text),
+//                 backgroundColor: Colors.indigo,
+//                 child: Icon(
+//                   Icons.send,
+//                   color: Colors.white,
+//                 ),
+//               ),
 //             ),
-//           ),
-//         ],
+//           ],
+//         ),
 //       ),
 //     );
 //   }
@@ -202,19 +214,12 @@
 //                   margin: const EdgeInsets.only(top: 5.0),
 //                   padding: const EdgeInsets.all(10.0),
 //                   decoration: BoxDecoration(
-//                     color: isUser ? Colors.blueAccent : Colors.grey[700],
+//                     color: isUser ? Colors.white : Colors.white70,
 //                     borderRadius: BorderRadius.circular(15.0),
-//                     boxShadow: [
-//                       BoxShadow(
-//                         color: Colors.black26,
-//                         blurRadius: 4.0,
-//                         offset: Offset(2, 2),
-//                       ),
-//                     ],
 //                   ),
 //                   child: Text(
 //                     text,
-//                     style: TextStyle(color: Colors.white),
+//                     style: TextStyle(color: Colors.black),
 //                   ),
 //                 ),
 //               ],
@@ -231,7 +236,7 @@
 //     );
 //   }
 // }
-//-------
+//--------------#
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -260,11 +265,9 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
     _model = GenerativeModel(
       model: 'gemini-1.5-flash',
-      apiKey:
-          'AIzaSyBX7BHTNXm6d5O4Pv_jbSbQ1A55f2kiJfQ', // Replace with your actual API key
+      apiKey: 'AIzaSyBX7BHTNXm6d5O4Pv_jbSbQ1A55f2kiJfQ',
     );
-    _controller.text =
-        widget.initialText; // Initialize text controller with initial text
+    _controller.text = widget.initialText;
   }
 
   @override
@@ -304,6 +307,11 @@ class _ChatScreenState extends State<ChatScreen> {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeOut,
     );
+  }
+
+  void _addSuggestionAndSubmit(String suggestion) {
+    final text = _controller.text + '\n' + suggestion;
+    _handleSubmitted(text);
   }
 
   @override
@@ -350,54 +358,91 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   const SizedBox(height: 15),
                 ],
-                Divider(height: 1.0),
                 _buildTextComposer(),
               ],
             ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _handleSubmitted(_controller.text),
-        backgroundColor: Colors.indigo,
-        child: Icon(
-          Icons.send,
-          color: Colors.white,
-        ),
-      ),
     );
   }
 
   Widget _buildTextComposer() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-      padding: const EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(25.0),
-      ),
-      child: Row(
-        children: <Widget>[
-          SizedBox(
-            width: 15,
-          ),
-          Flexible(
-            child: TextField(
-              controller: _controller,
-              focusNode: _focusNode,
-              onSubmitted: _handleSubmitted,
-              decoration: InputDecoration.collapsed(
-                hintText: 'Enter text to generate response',
-                hintStyle: TextStyle(color: Colors.grey),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 5, top: 5),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 30,
+                width: 160,
+                child: ElevatedButton(
+                  onPressed: () => _addSuggestionAndSubmit(
+                      "generate context-based text of the text given above"),
+                  child: Text("Generate Context"),
+                ),
               ),
-              style: TextStyle(color: Colors.black),
-            ),
+              SizedBox(
+                width: 10,
+              ),
+              SizedBox(
+                height: 30,
+                child: ElevatedButton(
+                  onPressed: () =>
+                      _addSuggestionAndSubmit("paraphrase the above text"),
+                  child: Text("Paraphrase"),
+                ),
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: IconButton(
-              icon: Icon(Icons.send, color: Colors.white),
-              onPressed: () => _handleSubmitted(_controller.text),
+          SizedBox(
+            height: 5,
+          ),
+          Divider(
+            height: 0.1,
+            color: Colors.white,
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+            child: Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 15,
+                ),
+                Flexible(
+                  child: TextField(
+                    maxLines: null,
+                    controller: _controller,
+                    focusNode: _focusNode,
+                    onSubmitted: _handleSubmitted,
+                    decoration: InputDecoration.collapsed(
+                      hintText: 'Enter text to generate response',
+                      hintStyle: TextStyle(color: Colors.grey),
+                    ),
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8, right: 8, bottom: 8),
+                  child: FloatingActionButton.small(
+                    onPressed: () => _handleSubmitted(_controller.text),
+                    backgroundColor: Colors.indigo,
+                    child: Icon(
+                      Icons.send,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
