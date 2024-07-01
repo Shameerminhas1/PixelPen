@@ -5,6 +5,7 @@ import 'package:open_filex/open_filex.dart';
 import 'package:pixelpen/Camerainput.dart';
 import 'package:pixelpen/Textscreen.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<File> savedFiles = [];
   List<File> searchResults = [];
   TextEditingController _searchController = TextEditingController();
-
+  var dateFormat = DateFormat('dd-MM-yyyy hh:mm a');
   @override
   void initState() {
     super.initState();
@@ -94,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     setState(() {
                       int index = savedFiles.indexOf(file);
                       savedFiles[index] = File(newPath);
-                      _searchFiles(); // Refresh the search results if needed
+                      _searchFiles();
                     });
                   } catch (e) {
                     print('Error renaming file: $e');
@@ -339,7 +340,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         title: Text(file.path.split('/').last),
                         subtitle: Text(
-                            'Modified: ${file.lastModifiedSync().toLocal()}'),
+                            'Modified: ${dateFormat.format(file.lastModifiedSync().toLocal())}'),
                         onTap: () => _viewFile(file),
                         trailing: PopupMenuButton<String>(
                           onSelected: (value) {
