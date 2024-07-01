@@ -141,7 +141,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: ElevatedButton(
                   onPressed: () => _addSuggestionAndSubmit(
                       "generate context-based text of the text given above"),
-                  child: Text("Generate Context"),
+                  child: Text(
+                    "Generate Context",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               SizedBox(
@@ -152,7 +155,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: ElevatedButton(
                   onPressed: () =>
                       _addSuggestionAndSubmit("paraphrase the above text"),
-                  child: Text("Paraphrase"),
+                  child: Text(
+                    "Paraphrase",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ],
