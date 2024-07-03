@@ -10,9 +10,9 @@ An AI-based flutter mobile application that converts handwriting input into text
 # translate
 # read aloud
 
-# -------------------------------------------------------------
+----------
 # SCREENS 
-# -------------------------------------------------------------
+----------
 # Splash screen 
 ![Screenshot_1719746586](https://github.com/Shameerminhas1/PixelPen/assets/122668054/68634018-8207-48ac-84fe-63ac531f94c8)
 # Home Screen
