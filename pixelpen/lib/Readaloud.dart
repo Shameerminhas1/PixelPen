@@ -91,10 +91,12 @@ class _ReadAloudState extends State<ReadAloud> {
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.white70,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: TextField(
+                      style: TextStyle(
+                          fontSize: 16.0, fontWeight: FontWeight.bold),
                       textAlignVertical: TextAlignVertical.top,
                       controller: _textController,
                       decoration: InputDecoration(
