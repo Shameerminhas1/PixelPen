@@ -3,6 +3,11 @@
 *.log
 *.pyc
 *.swp
+*.cmake
+*.swift
+*.png
+*.cc
+*.txt
 .DS_Store
 .atom/
 .buildlog/
